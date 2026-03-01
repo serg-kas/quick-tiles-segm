@@ -1,10 +1,16 @@
-# PyCharm
-.idea
-
 # Folders
 out_files/
 source_files/
 data/
+
+# Загруженные веса модели
+#/models/sam2.1_hiera_large.pt
+/models/*.pt
+
+
+# #############################
+# PyCharm
+.idea
 
 # Swap
 [._]*.s[a-v][a-z]
@@ -98,7 +104,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-
+# #############################
 # PyBuilder
 .pybuilder/
 target/
@@ -128,7 +134,7 @@ __pypackages__/
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
-
+# #############################
 # SageMath parsed files
 *.sage.py
 
