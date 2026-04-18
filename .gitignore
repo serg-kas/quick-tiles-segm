@@ -7,6 +7,10 @@ data/
 #/models/sam2.1_hiera_large.pt
 /models/*.pt
 
+# Модель SAM2
+sam2/
+
+
 
 # #############################
 # PyCharm
