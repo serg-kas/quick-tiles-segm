@@ -21,6 +21,20 @@ import json
 # from pprint import pprint, pformat
 # from pprint import pprint
 
+
+# Рабочая директория - откуда запускаем программу
+WORKING_FOLDER = os.getcwd()
+print("Рабочая директория (полный путь): {}".format(WORKING_FOLDER))
+
+# Добавляем корень проекта в sys.path, если его там ещё нет
+from pathlib import Path
+PROJECT_ROOT = Path(__file__).parent.absolute()
+print("Корневая папка проекта: {}".format(PROJECT_ROOT))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+
+# Свои модули/хелперы
 import config
 import settings as s
 import tool_case as t
@@ -29,12 +43,7 @@ import helpers.utils as u
 import workflow as w
 import sam2_model
 
-
-# Рабочая директория: полный путь и локальная папка
-working_folder_full_path = os.getcwd()
-print("Рабочая директория (полный путь): {}".format(working_folder_full_path))
-
-
+# exit()
 # ##################### РЕЖИМЫ РАБОТЫ #########################
 operation_mode_list =s.OPERATION_MODE_LIST  # список режимов работы
 default_mode = s.DEFAULT_MODE               # режим работы по умолчанию

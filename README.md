@@ -12,21 +12,21 @@
 
 1. Клонируем репозиторий и переходим в папку проекта
 
-```
+```bash
 git clone https://github.com/serg-kas/quick-tiles-segm.git
 
 cd quick-tiles-segm
 ```
 
-2. Внутри папки приложения клонируем репозиторий модели 
+2. Внутри папки проекта клонируем репозиторий модели 
 
-```
+```bash
 git clone https://github.com/serg-kas/sam2.git
 ```
 
 3. Идем в папку models и скачиваем веса
 
-```
+```bash
 сd models  
 ./download_ckpts.sh
 ```
@@ -35,13 +35,13 @@ git clone https://github.com/serg-kas/sam2.git
 
 4. Выходим на уровень папки проекта
 
-```
+```bash
 cd ..
 ```
 
-5. Создаем питоновское окружение и активируем его (на пример conda)
+5. Создаем питоновское окружение и активируем его (пример conda)
 
-```
+```bash
 conda create -n py310 -c conda-forge python=3.10 pip
 
 conda activate py310
@@ -49,13 +49,15 @@ conda activate py310
 
 6. Устанавливаем зависимости
 
-```
+```bash
   pip install -r requirements.txt
+  
+  pip install -e sam2/.
 ```
 
-7. Первый запуск приложения
+7. Первый запуск приложения (запускать из папка проекта)
 
-```
+```bash
 python src/app.py help
 ```
 
@@ -63,9 +65,9 @@ python src/app.py help
 
 Будут созданы папки source_files и out_files для исходных и готовых изображений.
 
-8. Тестовый запуст приложения
+8. Тестовый запуск приложения
 
-```
+```bash
 python src/app.py test
 ```
 
@@ -79,7 +81,7 @@ python src/app.py test
 
 По окончании обработки результаты будут помещены в папк
 
-```
+```bash
 python src/app.py baseline_workflow
 ```
 
@@ -87,7 +89,7 @@ python src/app.py baseline_workflow
 
 Возможно подавать в обработку изображения из других папок, передавая путь в параметрах.
 
-```
+```bash
 python src/app.py baseline source2 outfolder2
 ```
 
@@ -99,9 +101,9 @@ python src/app.py baseline source2 outfolder2
     Отредактируйте в нем необходимые параметры, например установите  
     APP_SAM2_FORCE_CUDA="False" для запрета использовать GPU
 
-10. Обновление приложения из репозитория
+12. Обновление приложения из репозитория
 
-```
+```bash
 git pull
 ```
 

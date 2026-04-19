@@ -6,7 +6,8 @@ import json
 from dotenv import load_dotenv
 
 # При наличии файла .env загружаем из него переменные окружения
-dotenv_path = os.path.join(os.path.dirname(__file__), 'cfg.env')
+# dotenv_path = os.path.join(os.path.dirname(__file__), 'cfg.env')     # в текущей папке
+dotenv_path = os.path.join(os.path.dirname(__file__), '../cfg.env')  # в папке на уровень выше
 if os.path.exists(dotenv_path):
     print("Загружаем переменные окружения из файла: {}".format(dotenv_path))
     load_dotenv(dotenv_path)
@@ -128,10 +129,10 @@ ALLOWED_TYPES = ALLOWED_IMAGES + ['.pdf']
 #                    ПАРАМЕТРЫ МОДЕЛЕЙ
 # #############################################################
 # Параметры модели SAM2
-# SAM2_config_file = "sam2_hiera_l.yaml"
-# SAM2_checkpoint_file = "models/sam2_hiera_large.pt"
-SAM2_config_file = "sam2.1_hiera_l.yaml"
-SAM2_checkpoint_file = "models/sam2.1_hiera_large.pt"
+# SAM2_config_file = "sam2.1_hiera_l.yaml"
+SAM2_config_file = "sam2_hiera_l.yaml"
+# SAM2_checkpoint_file = "models/sam2.1_hiera_large.pt"  # в текущей папке
+SAM2_checkpoint_file = "../models/sam2.1_hiera_large.pt"  # в папке на уровень выше
 SAM2_force_cuda = get_value_from_env("SAM2_FORCE_CUDA", default_value=False)
 #
 SAM2_iou_threshold = 0.25
