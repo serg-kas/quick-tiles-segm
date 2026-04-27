@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# ЗАГРУЗКА с оригинального репозитория (может не работать)
+
 # Copyright (c) Meta Platforms, Inc. and affiliates.
 # All rights reserved.
 
