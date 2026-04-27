@@ -21,7 +21,7 @@ cd quick-tiles-segm
 2. Внутри папки проекта клонируем репозиторий модели 
 
 ```bash
-git clone https://github.com/serg-kas/sam2.git
+git clone https://github.com/serg-kas/sam21.git
 ```
 
 3. Идем в папку models и скачиваем веса
@@ -51,8 +51,8 @@ conda activate py310
 
 ```bash
   pip install -r requirements.txt
-  
-  pip install -e sam2/.
+
+  pip install -e sam21/.
 ```
 
 7. Первый запуск приложения (запускать из папка проекта)

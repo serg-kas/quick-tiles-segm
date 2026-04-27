@@ -7,8 +7,8 @@ data/
 #/models/sam2.1_hiera_large.pt
 /models/*.pt
 
-# Модель SAM2
-sam2/
+# Модель SAM2.1
+sam21/
 
 
 
