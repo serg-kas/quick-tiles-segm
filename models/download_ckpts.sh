@@ -16,7 +16,6 @@ else
     exit 1
 fi
 
-
 # Define the URLs for SAM 2.1 checkpoints
 SAM2p1_BASE_URL="https://dl.fbaipublicfiles.com/segment_anything_2/092824"
 #sam2p1_hiera_t_url="${SAM2p1_BASE_URL}/sam2.1_hiera_tiny.pt"
