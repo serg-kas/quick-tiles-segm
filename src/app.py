@@ -166,7 +166,7 @@ def process(operation_mode, source_files, out_path):
             exit(-1)
 
         # Загружаем изображение
-        img_file_list = u.get_files_by_type(['images/bricks.png'], s.ALLOWED_IMAGES)
+        img_file_list = u.get_files_by_type(['src/images/bricks.png'], s.ALLOWED_IMAGES)
         if len(img_file_list) < 1:
             print("Не нашли изображение для тестовой обработки")
             exit(-1)
@@ -196,7 +196,7 @@ def process(operation_mode, source_files, out_path):
         # height, width = image_rgb.shape[:2]
 
         # Промт
-        prompt_list = json.load(open('images/bricks_prompt.json'))
+        prompt_list = json.load(open('src/images/bricks_prompt.json'))
         if prompt_list is not None:
             print("Используем промт: {}".format(prompt_list))
         else:
