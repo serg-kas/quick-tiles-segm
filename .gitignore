@@ -1,3 +1,6 @@
+# Файл конфигурации через переменные окружения
+/cfg.env
+
 # Folders
 out_files/
 source_files/
@@ -175,4 +178,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
 

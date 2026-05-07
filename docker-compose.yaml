@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    env_file:
+      - cfg.env
+    volumes:
+      - ./source_files:/app/source_files
+      - ./out_files:/app/out_files
+      - ./models:/app/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1              # или all, если нужно все GPU
+              capabilities: [gpu]
