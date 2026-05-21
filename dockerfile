@@ -1,10 +1,9 @@
 FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
 
-
 # Системные зависимости для OpenCV и Python
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 python3-pip \
-#    libgl1-mesa-glx \
+    libgl1-mesa-glx \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -21,25 +20,29 @@ COPY requirements.txt .
 # RUN pip install --no-cache-dir -r requirements.txt
 
 # Официальный PyPI + таймауты + оптимизация
- RUN pip install --no-cache-dir \
+RUN pip install --no-cache-dir \
     --no-compile \
     --default-timeout=100 \
     --retries=5 \
     -r requirements.txt \
     && find /usr/local/lib/python*/dist-packages/ -name "*.pyc" -delete \
     && rm -rf /root/.cache/pip
+ 
 
-
-# Устанавливаем Python-пакеты с оптимизациями
-# RUN pip install --no-cache-dir \
+# Гибридный вариант: быстрое зеркало (Aliyun), при ошибке — официальный PyPI
+#RUN pip install --no-cache-dir \
 #    --no-compile \
-#    -i https://pypi.tuna.tsinghua.edu.cn/simple \
-#    --trusted-host pypi.tuna.tsinghua.edu.cn \
+#    --default-timeout=100 \
+#    --retries=5 \
+#    -i https://mirrors.aliyun.com/pypi/simple/ \
+#    --extra-index-url https://pypi.org/simple \
+#    --trusted-host mirrors.aliyun.com \
 #    -r requirements.txt \
 #    && find /usr/local/lib/python*/dist-packages/ -name "*.pyc" -delete \
-#    && rm -rf /root/.cache/pip    
+#    && rm -rf /root/.cache/pip
+
 
 # Код приложения
 COPY src/ ./src/
 
-CMD ["python", "src/app.py", "test"]
+CMD ["python", "src/app.py"]
