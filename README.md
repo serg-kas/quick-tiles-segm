@@ -96,10 +96,12 @@ python src/app.py baseline source2 outfolder2
 Брать файлы для обработки в source2, результаты помещать в outfolder2
 
 11. Прочие параметры приложения передаются через переменные окружения
-    
+
+```
     Скопируйте файл cfg-example.env в файл cfg.env в папке приложения.  
     Отредактируйте в нем необходимые параметры, например установите  
     APP_SAM2_FORCE_CUDA="False" для запрета использовать GPU
+``` 
 
 12. Обновление приложения из репозитория
 
@@ -127,7 +129,7 @@ sudo ./setup_docker.sh
 
 Проверку доступности GPU можно запустить вручную командой:
 ```bash
-docker run --rm --gpus all nvidia/cuda:12.1.0-base-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 ```
    
 TODO: Команда сборки образа приложения
