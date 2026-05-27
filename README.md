@@ -24,7 +24,7 @@ cd quick-tiles-segm
 git clone https://github.com/serg-kas/sam21.git
 ```
 
-3. Идем в папку models и скачиваем веса
+3. Идем в папку models и скачиваем веса (в папке есть свой README)
 
 ```bash
 сd models  
@@ -32,14 +32,14 @@ git clone https://github.com/serg-kas/sam21.git
 ```
 
 В папке models должен появиться файл sam2.1_hiera_large.pt
-  
+
 4. Выходим на уровень папки проекта
 
 ```bash
 cd ..
 ```
 
-5. Создаем питоновское окружение и активируем его (пример conda)
+5. Создаем питоновское окружение и активируем его (пример на conda)
 
 ```bash
 conda create -n py310 -c conda-forge python=3.10 pip
@@ -101,7 +101,7 @@ python src/app.py baseline source2 outfolder2
     Скопируйте файл cfg-example.env в файл cfg.env в папке приложения.  
     Отредактируйте в нем необходимые параметры, например установите  
     APP_SAM2_FORCE_CUDA="False" для запрета использовать GPU
-``` 
+```
 
 12. Обновление приложения из репозитория
 
@@ -124,26 +124,25 @@ NVIDIA Container Toolkit, Docker и Docker Compose.
 ```bash
 sudo ./setup_docker.sh
 ```
-В случае успешной проверке и/или установки компонентов будет скачан и запущен 
+
+В случае успешной проверки и/или установки компонентов будет скачан и запущен 
 образ для проверки доступности GPU из программы в docker.
 
 Проверку доступности GPU можно запустить вручную командой:
+
 ```bash
-docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 ```
-   
+
 TODO: Команда сборки образа приложения
+
+
 TODO: Команда запуска приложения в docker
 
 ### Запуск предварительно собранного образа docker
 
 Для удобства запуска приложения создал файл конфигурации docker-compose.yaml
 
-
 TODO: Команда запуска приложения в docker-compose 
-
-
-
-
 
 # 
