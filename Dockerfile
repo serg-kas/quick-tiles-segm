@@ -26,8 +26,15 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir --no-compile -r requirements.txt
 
 # Устанавливаем SAM2: используем pip install из git (без ручного клонирования)
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --no-cache-dir --no-compile git+https://github.com/serg-kas/sam21.git
+# RUN --mount=type=cache,target=/root/.cache/pip \
+#     pip install --no-cache-dir --no-compile git+https://github.com/serg-kas/sam21.git
+
+# Клонируем SAM2 в /app/sam2 (на один уровень с src) и устанавливаем
+RUN git clone https://github.com/serg-kas/sam21.git /app/sam21 && \
+   cd /app/sam21 && \
+   # Если есть setup.py — устанавливаем в editable режиме
+   (test -f setup.py && pip install --no-cache-dir -e . || true) && \
+   rm -rf /app/sam21/.git
 
 # Копируем исходный код приложения
 COPY src/ ./src/

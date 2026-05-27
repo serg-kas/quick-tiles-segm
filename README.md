@@ -159,6 +159,18 @@ docker run -it --rm \
   python src/app.py test
 ```
 
+Команда интерактивного запуска образа
+```bash
+docker run -it --rm \
+  --gpus all \
+  --env-file cfg.env \
+  -v "$(pwd)/source_files:/app/source_files" \
+  -v "$(pwd)/out_files:/app/out_files" \
+  -v "$(pwd)/models:/app/models" \
+  --entrypoint /bin/bash \
+  segm-tiles-image
+```
+
 ### Запуск предварительно собранного образа docker
 
 Для удобства запуска приложения создал файл конфигурации docker-compose.yaml
