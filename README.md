@@ -137,14 +137,26 @@ docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 Команда сборки образа приложения
 
 ```bash
-docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
+docker build -t segm-tiles-image .
 ```
 
+Чтобы присвоить образу тэг и использовать указанный Dockerfile
+```bash
+docker build -t segm-tiles-image:dev -f Dockerfile.dev .
+```
 
-TODO: Команда запуска приложения в docker
+Команда запуска приложения в docker
+Предварительно надо создать папки source_files и out_files если их еще нет
 
 ```bash
-docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
+docker run -it --rm \
+  --gpus all \
+  --env-file cfg.env \
+  -v "$(pwd)/source_files:/app/source_files" \
+  -v "$(pwd)/out_files:/app/out_files" \
+  -v "$(pwd)/models:/app/models" \
+  segm-tiles-image \
+  python src/app.py test
 ```
 
 ### Запуск предварительно собранного образа docker
