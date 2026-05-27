@@ -134,10 +134,18 @@ sudo ./setup_docker.sh
 docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 ```
 
-TODO: Команда сборки образа приложения
+Команда сборки образа приложения
+
+```bash
+docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
+```
 
 
 TODO: Команда запуска приложения в docker
+
+```bash
+docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
+```
 
 ### Запуск предварительно собранного образа docker
 
