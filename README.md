@@ -198,3 +198,8 @@ docker compose up --remove-orphans
 ```bash
 docker compose run --remove-orphans app python src/app.py baseline
 ```
+
+Очистить docker, удалив всё неиспользуемые образы
+```bash
+docker system prune -a
+```
