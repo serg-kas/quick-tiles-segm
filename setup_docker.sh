@@ -21,7 +21,7 @@ if ! command -v nvidia-smi &> /dev/null; then
     echo -e "${RED}ОШИБКА: nvidia-smi не найдена.${NC}"
     echo -e "${YELLOW}Драйверы NVIDIA не установлены или не настроены.${NC}"
     echo "Установите драйверы вручную:"
-    echo "  В Ubuntu: sudo apt install nvidia-driver-535 (или последнюю версию)"
+    echo "  В Ubuntu: sudo apt install nvidia-driver-580 (или последнюю версию)"
     echo "  В WSL2: драйвер ставится в Windows, после чего nvidia-smi заработает в WSL."
     echo "После установки перезапустите этот скрипт."
     exit 1
@@ -107,19 +107,19 @@ echo -e "  ${GREEN}Конфигурация обновлена, Docker пере�
 echo -e "${CYAN}[5/5]${NC} ${GREEN}Проверка работы GPU в Docker...${NC}"
 echo -e "  Запуск тестового контейнера (nvidia-smi)..."
 
-# Выбираем образ с CUDA 12.1 (подходит для драйверов >=525.60.13). Если не работает, пробуем 11.8.
-TEST_IMAGE="nvidia/cuda:12.1.0-base-ubuntu22.04"
+# Выбираем образ с CUDA 12.8.0 (подходит для драйверов >=525.60.13). Если не работает, пробуем 11.8.
+TEST_IMAGE="nvidia/cuda:12.8.0-base-ubuntu22.04"
 echo -e "  Пробуем образ $TEST_IMAGE..."
 
 if docker run --rm --gpus all "$TEST_IMAGE" nvidia-smi &> /dev/null; then
     echo -e "  ${GREEN}GPU успешно доступны в контейнере!${NC}"
 else
     echo -e "  ${YELLOW}Не удалось запустить с $TEST_IMAGE. Пробую nvidia/cuda:11.8.0-base-ubuntu22.04...${NC}"
-    if docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi &> /dev/null; then
-        echo -e "  ${GREEN}GPU работают (c CUDA 12.8). Всё в порядке.${NC}"
+    if docker run --rm --gpus all nvidia/cuda:11.8.0-base-ubuntu22.04 nvidia-smi &> /dev/null; then
+        echo -e "  ${GREEN}GPU работают (c CUDA 11.8). Всё в порядке.${NC}"
     else
         echo -e "  ${RED}Не удалось запустить nvidia-smi в контейнере. Причины:${NC}"
-        echo -e "  - Ваш драйвер слишком старый для CUDA 12.8. Обновите драйвер."
+        echo -e "  - Ваш драйвер слишком старый для CUDA 11.8. Обновите драйвер."
         echo -e "  - Пакет nvidia-container-toolkit установился некорректно."
         echo -e "  Проверьте вручную: docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi"
         exit 1
@@ -133,7 +133,7 @@ echo -e "${GREEN}============================================${NC}"
 echo -e "Теперь вы можете запустить ваше приложение:"
 echo -e "  ${CYAN}docker compose up --build${NC}"
 echo ""
-echo -e "Если вы добавлены в группу docker, но не перезаходили в сессию,"
+echo -e "Если вы добавлены в группу docker, но не пере-заходили в сессию,"
 echo -e "команды docker могут требовать sudo. Выполните:"
 echo -e "  ${YELLOW}newgrp docker${NC}   или просто перезайдите в терминал."
 
