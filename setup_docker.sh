@@ -115,13 +115,13 @@ if docker run --rm --gpus all "$TEST_IMAGE" nvidia-smi &> /dev/null; then
     echo -e "  ${GREEN}GPU успешно доступны в контейнере!${NC}"
 else
     echo -e "  ${YELLOW}Не удалось запустить с $TEST_IMAGE. Пробую nvidia/cuda:11.8.0-base-ubuntu22.04...${NC}"
-    if docker run --rm --gpus all nvidia/cuda:11.8.0-base-ubuntu22.04 nvidia-smi &> /dev/null; then
-        echo -e "  ${GREEN}GPU работают (c CUDA 11.8). Всё в порядке.${NC}"
+    if docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi &> /dev/null; then
+        echo -e "  ${GREEN}GPU работают (c CUDA 12.8). Всё в порядке.${NC}"
     else
         echo -e "  ${RED}Не удалось запустить nvidia-smi в контейнере. Причины:${NC}"
-        echo -e "  - Ваш драйвер слишком старый для CUDA 11.8/12.1. Обновите драйвер."
+        echo -e "  - Ваш драйвер слишком старый для CUDA 12.8. Обновите драйвер."
         echo -e "  - Пакет nvidia-container-toolkit установился некорректно."
-        echo -e "  Проверьте вручную: docker run --rm --gpus all nvidia/cuda:11.0-base-ubuntu20.04 nvidia-smi"
+        echo -e "  Проверьте вручную: docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi"
         exit 1
     fi
 fi
