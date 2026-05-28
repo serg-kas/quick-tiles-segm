@@ -116,11 +116,10 @@ git pull
 В системе должны быть установлены драйвера NVIDIA, 
 NVIDIA Container Toolkit, Docker и Docker Compose.  
 
-Скрипт setup_docker.sh проверит установку необходимых компонентов и 
-попытается установить отсутствующие.
+Скрипт setup_docker.sh проверит установку необходимых компонентов и попытается установить отсутствующие.
+
 Работает с ubuntu/debian, в том числе в Windows WSL2
 Запускать с sudo:
-
 ```bash
 sudo ./setup_docker.sh
 ```
@@ -129,25 +128,17 @@ sudo ./setup_docker.sh
 образ для проверки доступности GPU из программы в docker.
 
 Проверку доступности GPU можно запустить вручную командой:
-
 ```bash
 docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 ```
 
-Команда сборки образа приложения
-
+Команда сборки образа приложения:
 ```bash
 docker build -t segm-tiles-image .
 ```
 
-Чтобы присвоить образу тэг и использовать указанный Dockerfile
-```bash
-docker build -t segm-tiles-image:dev -f Dockerfile.dev .
-```
-
-Команда запуска приложения в docker
-Предварительно надо создать папки source_files и out_files если их еще нет
-
+Команда запуска приложения в docker.
+Предварительно надо создать папки source_files и out_files если их еще нет.
 ```bash
 docker run -it --rm \
   --gpus all \
@@ -159,7 +150,35 @@ docker run -it --rm \
   python src/app.py test
 ```
 
-Команда интерактивного запуска образа
+### Запуск предварительно собранного образа docker
+
+Для удобства запуск приложения можно проводить через docker compose.
+
+Команда запуска приложения в docker compose (запустится режим test):
+```bash
+docker compose up
+```
+
+Команда запуска приложения в docker compose в другом режиме:
+```bash
+docker compose run app python src/app.py baseline
+```
+
+Чтобы установить другой режим работы по умолчанию можно отредактировать соответствующее место в конфигурационном файле docker-compose.yaml (например заменить test на tiling)
+```
+...
+command: python src/app.py test заменить на baseline
+...
+```
+
+### Прочие команды, которые могут быть полезны
+
+Чтобы присвоить образу тэг и использовать указанный Dockerfile вместо файла по умолчанию:
+```bash
+docker build -t segm-tiles-image:dev -f Dockerfile.dev .
+```
+
+Команда интерактивного запуска образа:
 ```bash
 docker run -it --rm \
   --gpus all \
@@ -171,10 +190,11 @@ docker run -it --rm \
   segm-tiles-image
 ```
 
-### Запуск предварительно собранного образа docker
-
-Для удобства запуска приложения создал файл конфигурации docker-compose.yaml
-
-TODO: Команда запуска приложения в docker-compose 
-
-# 
+Запуск через docker compose с очисткой следов предыдущих запусков
+```bash
+docker compose up --remove-orphans
+```
+или
+```bash
+docker compose run --remove-orphans app python src/app.py
+```
