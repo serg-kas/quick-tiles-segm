@@ -167,7 +167,7 @@ docker compose run app python src/app.py baseline
 Чтобы установить другой режим работы по умолчанию можно отредактировать соответствующее место в конфигурационном файле docker-compose.yaml (например заменить test на tiling)
 ```
 ...
-command: python src/app.py test заменить на baseline
+command: python src/app.py test # заменить на tiling
 ...
 ```
 
@@ -196,5 +196,5 @@ docker compose up --remove-orphans
 ```
 или
 ```bash
-docker compose run --remove-orphans app python src/app.py
+docker compose run --remove-orphans app python src/app.py baseline
 ```
