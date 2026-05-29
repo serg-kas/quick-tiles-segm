@@ -7,8 +7,8 @@ FROM nvidia/cuda:12.8.0-base-ubuntu22.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.10 python3-pip \
     && ln -s /usr/bin/python3.10 /usr/bin/python \
-    && rm -rf /var/lib/apt/lists/*
-
+    #&& rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc/* /usr/share/man/* /usr/share/locale/* /usr/share/info/*
 
 WORKDIR /app
 
