@@ -200,7 +200,17 @@ docker compose up --remove-orphans
 docker compose run --remove-orphans app python src/app.py baseline
 ```
 
-Очистить docker, удалив всё неиспользуемые образы
+Очистить кэш сборки (не затрагивает образы)
+```bash
+docker builder prune -af
+```
+Очистить docker, удалив все образы, кэш и т.д.
 ```bash
 docker system prune -a
+```
+
+Утилита для анализа структуры образа
+```bash
+docker pull wagoodman/dive
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive segm-tiles-image:latest
 ```

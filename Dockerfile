@@ -19,6 +19,7 @@ COPY requirements-prod.txt .
 # Устанавливаем PyTorch 2.8.0 + torchvision 0.23.0 с индексом CUDA 12.8
 # и остальные зависимости
 RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir --no-compile numpy==1.26.4 && \
     pip install --no-cache-dir --no-compile \
     torch==2.8.0 torchvision==0.23.0 \
     --index-url https://download.pytorch.org/whl/cu128 && \
@@ -38,8 +39,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get purge -y git build-essential python3.10-dev \
     && apt-get autoremove -y --purge \
     && rm -rf /var/lib/apt/lists/* /root/.cache/pip/* /tmp/* /var/tmp/*
-    
-    
+        
 
 # Копируем исходный код приложения
 COPY src/ ./src/
