@@ -49,8 +49,9 @@ conda activate py310
 
 6. Устанавливаем зависимости
 
+Для разработки надо устанавливать зависимости из requirements-dev.txt
 ```bash
-  pip install -r requirements.txt
+  pip install -r requirements-dev.txt
 
   pip install -e sam21/.
 ```
