@@ -1,5 +1,4 @@
-# БАЗОВЫЙ работающий вариант
-# Использует зависимости разработки
+# БАЗОВЫЙ вариант, использует зависимости разработки
 
 # Актуальный образ CUDA 12.8 на Ubuntu 22.04
 FROM nvidia/cuda:12.8.0-runtime-ubuntu22.04
@@ -15,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Копируем requirements.txt ДО установки пакетов (для кэширования)
+# Копируем requirements.txt до установки пакетов
 COPY requirements-dev.txt .
 
 # Устанавливаем PyTorch 2.8.0 + torchvision 0.23.0 с индексом CUDA 12.8
@@ -24,14 +23,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     torch==2.8.0 torchvision==0.23.0 \
     --index-url https://download.pytorch.org/whl/cu128
 
-# Устанавливаем остальные зависимости из requirements.txt (с кэшированием)
+# Устанавливаем остальные зависимости из requirements-dev.txt (с кэшированием)
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir --no-compile -r requirements-dev.txt    
     
 
 # Клонируем SAM2 в /app/sam2 (на один уровень с src) и устанавливаем
-#RUN git clone https://github.com/serg-kas/sam21.git /app/sam21 && \
-#    pip install --no-cache-dir -e /app/sam21
 RUN git clone --depth 1 https://github.com/serg-kas/sam21.git /app/sam21 && \
     pip install --no-cache-dir -e /app/sam21 && \
     rm -rf /app/sam21/.git
