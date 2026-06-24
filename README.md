@@ -5,10 +5,10 @@
 Возможные варианты запуска приложения:
 
 1. Запуск на python c самостоятельным предварительным развертыванием окружения (режим разработки).
-2. В самостоятельно собираемом образе docker (требуется выполнить п.1).
-3. В предварительно собранном образе docker (образ скачивается с нашего ресурса)
+2. В самостоятельно собираемом образе docker (требуется выполнить п.1, потом собрать образ).
+3. В готовом образе docker (образ скачивается с Docker Hub, п.п.1 и 2 выполнять не нужно).
 
-### Развертывание и запуск на python
+### Развертывание и запуск на python.
 
 1. Клонируем репозиторий и переходим в папку проекта
 
@@ -30,7 +30,6 @@ git clone https://github.com/serg-kas/sam21.git
 сd models  
 ./download_ckpts.sh или ./download_yandex.sh
 ```
-
 В папке models должен появиться файл sam2.1_hiera_large.pt
 
 4. Выходим на уровень папки проекта
@@ -56,7 +55,7 @@ conda activate py310
   pip install -e sam21/.
 ```
 
-7. Первый запуск приложения (запускать из папка проекта)
+7. Первый запуск приложения (запускать из папки проекта)
 
 ```bash
 python src/app.py help
@@ -86,15 +85,14 @@ python src/app.py test
 python src/app.py baseline_workflow
 ```
 
-Режим работы можно писать сокращенно, например baseline вместо baseline_workflow 
+Режим работы можно писать сокращенно, например baseline вместо baseline_workflow, tiling вместо workflow_tiling.  
 
-Возможно подавать в обработку изображения из других папок, передавая путь в параметрах.
+Возможно подавать в обработку изображения из других папок, передавая путь в параметрах.  
+Например, файлы для обработки берутся в папке source2, результаты помещаются в папку outfolder2.  
 
 ```bash
 python src/app.py baseline source2 outfolder2
 ```
-
-Брать файлы для обработки в source2, результаты помещать в outfolder2
 
 11. Прочие параметры приложения передаются через переменные окружения
 
@@ -104,15 +102,13 @@ python src/app.py baseline source2 outfolder2
     APP_SAM2_FORCE_CUDA="False" для запрета использовать GPU
 ```
 
-12. Обновление приложения из репозитория
+12. Обновление приложения из репозитория (набирать команду из папки проекта).
 
 ```bash
 git pull
 ```
 
-Набирать команду из папки проекта.
-
-### Самостоятельная сборка и запуск образа docker
+### Самостоятельная сборка и запуск образа docker.
 
 В системе должны быть установлены драйвера NVIDIA, 
 NVIDIA Container Toolkit, Docker и Docker Compose.  
@@ -124,11 +120,17 @@ NVIDIA Container Toolkit, Docker и Docker Compose.
 ```bash
 sudo ./setup_docker.sh
 ```
+Примечание:
+```
+Гарантировать, что скрипт setup_docker.sh успешно установит всё необходимое для сборки docker образа  
+на конкретном компьютере нельзя, поэтому в случае необходимости пользователь должен изучить документацию  
+и установить необходимые компоненты вручную.  
+```
 
 В случае успешной проверки и/или установки компонентов будет скачан и запущен 
 образ для проверки доступности GPU из программы в docker.
 
-Проверку доступности GPU можно запустить вручную командой:
+Проверку доступности GPU можно запустить командой:
 ```bash
 docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 ```
@@ -138,8 +140,13 @@ docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu22.04 nvidia-smi
 docker build -t segm-tiles-image .
 ```
 
-Команда запуска приложения в docker.
-Предварительно надо создать папки source_files и out_files если их еще нет.
+Необходимо создать папки для исходных и готовых изображений source_files и out_files,
+если они не создавались ранее.  В папке models должны быть скачаны веса модели.
+```bash
+mkdir -p source_files out_files
+```  
+
+Команда запуска приложения в docker из локально собранного образа.
 ```bash
 docker run -it --rm \
   --gpus all \
@@ -151,35 +158,120 @@ docker run -it --rm \
   python src/app.py test
 ```
 
-### Запуск предварительно собранного образа docker
-
 Для удобства запуск приложения можно проводить через docker compose.
 
 Команда запуска приложения в docker compose (запустится режим test):
 ```bash
-docker compose up
+docker compose -f docker-compose-dev.yaml up
 ```
 
-Команда запуска приложения в docker compose в другом режиме:
+Команда запуска приложения в docker compose в другом режиме (baseline):
+```bash
+docker compose -f docker-compose-dev.yaml run app python src/app.py baseline
+```
+
+
+### Запуск предварительно собранного образа из Docker Hub. 
+
+Скачать в систему готовый образ из Docker Hub:
+```bash
+docker pull sergkas/segm-tiles-image:latest
+```
+
+Посмотреть образы docker в системе:
+```bash
+docker images
+```
+Среди образов в системе вы увидите:
+```
+sergkas/segm-tiles-image:latest
+```
+
+Необходимо создать папки для исходных и готовых изображений source_files и out_files,
+если они не создавались ранее.  В папке models должны быть скачаны веса модели.
+```bash
+mkdir -p source_files out_files
+```  
+
+Команда запуска в docker аналогична запуску локально собранного образа:
+```bash
+docker run -it --rm \
+  --gpus all \
+  --env-file cfg.env \
+  -v "$(pwd)/source_files:/app/source_files" \
+  -v "$(pwd)/out_files:/app/out_files" \
+  -v "$(pwd)/models:/app/models" \
+  sergkas/segm-tiles-image:latest \
+  python src/app.py test
+```
+Внимание: используется имя образа с Docker Hub (sergkas/segm-tiles-image:latest).  
+
+Запуск через docker compose аналогичен запуску локально собранного образа:
 ```bash
 docker compose run app python src/app.py baseline
 ```
 
-Чтобы установить другой режим работы по умолчанию можно отредактировать соответствующее место в конфигурационном файле docker-compose.yaml (например заменить test на tiling)
+
+### Как запустить программу из Docker Hub при наличии настроенной системы (кратко).
+1. Cоздать папку для приложения и перейти в нее:
+```bash
+mkdir -p quick-tiles-segm
+cd quick-tiles-segm
 ```
-...
-command: python src/app.py test # заменить на tiling
-...
+2. Создать папку models и положить в нее файл весов модели, который можно взять по ссылке:
+```
+https://disk.yandex.ru/d/cMsiauLhyvhsgg
+```
+3. Создать папки для исходных и готовых изображений source_files и out_files.
+```bash
+mkdir -p source_files out_files
+```  
+4. Создать файл docker-compose.yaml с содержимым:
+```
+services:
+  app:
+    image: segm-tiles-image
+    env_file: cfg.env
+    volumes:
+      - ./source_files:/app/source_files
+      - ./out_files:/app/out_files
+      - ./models:/app/models
+    command: python src/app.py test
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+```
+5. Создать файл с настройками cfg.env: 
+```
+# Переменные окружения должны иметь имя APP_ + имя переменной в верхнем регистре
+# Параметр False надо передавать пустой строкой: ""
+
+# Выводить дополнительную информацию
+APP_VERBOSE="True"
+
+# Использовать GPU
+APP_SAM2_FORCE_CUDA="True"
+```
+6. Запустить программу в тестовом режиме командой:
+```bash
+docker compose up
+```
+При первом запуске образ будет автоматически загружен с Docker Hub.
+
+6. В папку source_files помещаем изображение для обработки и запускаем программу в рабочем режиме:  
+```bash
+docker compose run app python src/app.py baseline
 ```
 
-### Прочие команды, которые могут быть полезны
+
+### Прочие команды, которые могут быть полезны (не исчерпывающий список).
 
 Чтобы присвоить образу тэг и использовать указанный Dockerfile вместо файла по умолчанию:
 ```bash
-docker build -t segm-tiles-image:dev -f Dockerfile.dev .
+docker build -t segm-tiles-image:cpu -f Dockerfile.cpu .
 ```
 
-Команда интерактивного запуска образа:
+Команда интерактивного запуска образа (запуск в командной строке):
 ```bash
 docker run -it --rm \
   --gpus all \
@@ -191,7 +283,7 @@ docker run -it --rm \
   segm-tiles-image
 ```
 
-Запуск через docker compose с очисткой следов предыдущих запусков
+Запуск через docker compose с очисткой следов предыдущих запусков:
 ```bash
 docker compose up --remove-orphans
 ```
@@ -204,6 +296,7 @@ docker compose run --remove-orphans app python src/app.py baseline
 ```bash
 docker builder prune -af
 ```
+
 Очистить docker, удалив все образы, кэш и т.д.
 ```bash
 docker system prune -a

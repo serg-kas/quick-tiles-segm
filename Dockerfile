@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 
-# Копируем requirements.txt до установки пакетов
+# Копируем requirements-prod.txt до установки пакетов
 COPY requirements-prod.txt .
 
 

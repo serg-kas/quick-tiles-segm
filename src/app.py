@@ -2,24 +2,24 @@
 Основной модуль программы.
 Режимы работы см.operation_mode_list
 """
-import numpy as np
 import cv2 as cv
+import numpy as np
 # from PIL import Image
-import random
 
-import os
-import sys
-import time
-from time import perf_counter
-# from datetime import datetime, timezone, timedelta
-# import shutil
-# import requests
-# import threading
+# import base64
 # import io
 import json
-# import base64
+import os
+import random
+# import requests
+# import shutil
+import sys
+# import threading
+import time
+
+from time import perf_counter
+# from datetime import datetime, timezone, timedelta
 # from pprint import pprint, pformat
-# from pprint import pprint
 
 
 # Рабочая директория - откуда запускаем программу
@@ -34,16 +34,19 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-# Свои модули/хелперы
-import config
+# Настройки и конфигурация
 import settings as s
-import tool_case as t
-# import helpers.log
-import helpers.utils as u
-import workflow as w
-import sam2_model
 
-# exit()
+# Свои модули/хелперы
+# import helpers.log_utils
+import helpers.utils as u
+#
+import config
+import sam2_model
+import tool_case as t
+import workflow as w
+
+
 # ##################### РЕЖИМЫ РАБОТЫ #########################
 operation_mode_list =s.OPERATION_MODE_LIST  # список режимов работы
 default_mode = s.DEFAULT_MODE               # режим работы по умолчанию
@@ -79,12 +82,13 @@ def process(operation_mode, source_files, out_path):
         print(u.txt_separator('=', s.CONS_COLUMNS,
                               txt=' Справочная информация ', txt_align='center'))
 
+        print("Программа сегментации плиточных и аналогичных структурированных изображений.")
+
         print("Предусмотренные режимы работы:")
         # Печатаем элементы с выравниванием
         max_key_length = max(len(key) for key in s.OPERATION_MODE_DICT)
         for key, value in s.OPERATION_MODE_DICT.items():
             print(f"{key:<{max_key_length}} : {value}")
-
 
     # ######################### test ##########################
     # Тестовый режим: самопроверка установки, тест скорости

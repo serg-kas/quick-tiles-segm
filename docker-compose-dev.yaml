@@ -1,0 +1,12 @@
+services:
+  app:
+    image: sergkas/segm-tiles-image:latest
+    env_file: cfg.env
+    volumes:
+      - ./source_files:/app/source_files
+      - ./out_files:/app/out_files
+      - ./models:/app/models
+    command: python src/app.py test
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
