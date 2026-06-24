@@ -270,6 +270,7 @@ docker compose run app python src/app.py baseline
 ```bash
 docker build -f Dockerfile.cpu -t segm-tiles-image:cpu .
 ```
+В примере сборка образа для работы на CPU.
 
 Команда интерактивного запуска образа (запуск в командной строке):
 ```bash
