@@ -268,7 +268,7 @@ docker compose run app python src/app.py baseline
 
 Чтобы присвоить образу тэг и использовать указанный Dockerfile вместо файла по умолчанию:
 ```bash
-docker build -t segm-tiles-image:cpu -f Dockerfile.cpu .
+docker build -f Dockerfile.cpu -t segm-tiles-image:cpu .
 ```
 
 Команда интерактивного запуска образа (запуск в командной строке):
