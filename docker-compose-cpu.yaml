@@ -7,6 +7,6 @@ services:
       - ./out_files:/app/out_files
       - ./models:/app/models
     command: python src/app.py test
-    runtime: nvidia
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
+#    runtime: nvidia
+#    environment:
+#      - NVIDIA_VISIBLE_DEVICES=all

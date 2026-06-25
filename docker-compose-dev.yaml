@@ -1,6 +1,6 @@
 services:
   app:
-    image: sergkas/segm-tiles-image:latest
+    image: segm-tiles-image
     env_file: cfg.env
     volumes:
       - ./source_files:/app/source_files
